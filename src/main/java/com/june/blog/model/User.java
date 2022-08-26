@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert  // insert 시 null인 필드값 제외
 @Entity // User 클래스가 MySql 테이블에 생성됨
 public class User {
 
@@ -30,12 +31,12 @@ public class User {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @ColumnDefault("'user'")
-    private String role;    // Enum 을 쓰는게 좋음
+//    @ColumnDefault("'user'")
+//    private String role;    // Enum 을 쓰는게 좋음
+    @Enumerated(EnumType.STRING)
+    private RoleType role;
 
     @CreationTimestamp
     private Timestamp createDate;
-
-
 
 }
